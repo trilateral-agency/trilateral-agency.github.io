@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trilateral Agency</title>
+<meta name="description" content="Trilateral Agency — operational consulting for organizations that need to keep moving.">
+<style>
+  :root{
+    --ink:#16181d;
+    --muted:#6b7078;
+    --rule:#e6e6e3;
+    --paper:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:var(--paper);
+    color:var(--ink);
+    font:400 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  header{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+    padding:1.6rem 2rem;
+    border-bottom:1px solid var(--rule);
+  }
+  .mark{
+    color:#c81f16;
+    font-size:.9rem;
+    line-height:1;
+  }
+  .wordmark{
+    font-size:.95rem;
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+  main{
+    flex:1;
+    display:flex;
+    align-items:center;
+    padding:4rem 2rem;
+  }
+  .inner{max-width:34rem}
+  h1{
+    margin:0 0 1rem;
+    font-size:1.6rem;
+    font-weight:600;
+    letter-spacing:-.01em;
+    line-height:1.3;
+  }
+  p{margin:0 0 1rem;color:var(--muted)}
+  a{color:var(--ink)}
+  footer{
+    padding:1.4rem 2rem;
+    border-top:1px solid var(--rule);
+    font-size:.8rem;
+    color:var(--muted);
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem 1.2rem;
+    justify-content:space-between;
+  }
+  footer nav{display:flex;gap:1.2rem}
+  footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent}
+  footer a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+  @media (max-width:520px){
+    header,footer{padding-left:1.2rem;padding-right:1.2rem}
+    main{padding:3rem 1.2rem}
+  }
+</style>
+</head>
+<body>
+<header>
+  <span class="mark" aria-hidden="true">▲</span>
+  <span class="wordmark">Trilateral Agency</span>
+</header>
+
+<main>
+  <div class="inner">
+    <h1>Operational consulting for organizations that need to keep moving.</h1>
+    <p>We work with a small number of clients on problems that do not fit neatly into a department. Engagements are scoped in weeks, not quarters.</p>
+    <p>For new enquiries, write to <a href="mailto:office@trilateral.agency">office@trilateral.agency</a>.</p>
+  </div>
+</main>
+
+<footer>
+  <span>© 2026 Trilateral Agency</span>
+  <nav aria-label="Resources">
+    <a href="briefing/">Briefing template</a>
+    <a href="deck/">Deck template</a>
+  </nav>
+</footer>
+</body>
+</html>

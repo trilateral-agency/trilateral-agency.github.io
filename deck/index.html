@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentation Deck — Trilateral Agency</title>
+</head>
+<body>
+<style>
+:root{
+--paper:#f7f3ea;--panel:#fffdf8;--ink:#15171c;--muted:#5f6672;--rule:#ddd5c5;
+--accent:#0f766e;--accent-soft:rgba(15,118,110,.08);--amber:#b45309;
+--code:#171a21;--code-ink:#ece7dc;
+--bg:var(--paper);--fg:var(--ink);--border:var(--rule);--code-bg:#efe8da;--link:var(--accent);
+color-scheme:light dark}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+--paper:#1a1d23;--panel:#22262d;--ink:#f2f0eb;--muted:#b8bdc6;--rule:#3a3f47;
+--accent:#7ff0dc;--accent-soft:rgba(127,240,220,.14);--amber:#f5b97a;
+--code:#0d0f13;--code-ink:#f2f0eb;--code-bg:#2a2f37}}
+:root[data-theme="dark"]{
+--paper:#1a1d23;--panel:#22262d;--ink:#f2f0eb;--muted:#b8bdc6;--rule:#3a3f47;
+--accent:#7ff0dc;--accent-soft:rgba(127,240,220,.14);--amber:#f5b97a;
+--code:#0d0f13;--code-ink:#f2f0eb;--code-bg:#2a2f37}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--paper);-webkit-text-size-adjust:100%}
+body{font-family:ui-serif,Georgia,"Times New Roman",serif;font-size:1.0625rem;max-width:46em;margin:0 auto;padding:3.5em 1.5em 5em;line-height:1.65;color:var(--ink);background:var(--paper);text-rendering:optimizeLegibility}
+::selection{background:var(--accent-soft)}
+h1,h2,h3,h4{font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:1.7em 0 .55em;color:var(--ink)}
+h1{font-size:2.35rem;letter-spacing:-.03em;margin-top:0}
+h2{font-size:1.65rem}
+h3{font-size:1.22rem}
+h4{font-size:1.02rem}
+p{margin:0 0 1.05em}
+p,li{max-width:68ch}
+ul,ol{padding-left:1.35em}
+li{margin:.35em 0}
+li::marker{color:var(--accent)}
+a{color:var(--link);text-decoration:none;border-bottom:1px solid var(--accent-soft);transition:border-color .15s}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:650}
+small{color:var(--muted)}
+code,pre{font-family:"SF Mono","Fira Code",Consolas,monospace;font-size:.86em}
+code{background:var(--code-bg);color:var(--ink);padding:.12em .35em;border-radius:5px;border:1px solid var(--rule)}
+pre{background:var(--code);color:var(--code-ink);padding:1.1em 1.25em;border-radius:12px;overflow-x:auto;line-height:1.55}
+pre code{background:none;border:0;padding:0;color:inherit;font-size:1em}
+table{border-collapse:collapse;width:100%;margin:1.6em 0;font-size:.95em}
+th,td{border-bottom:1px solid var(--rule);padding:.6em .7em;text-align:left;vertical-align:top}
+th{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:.76em;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;border-bottom:2px solid var(--rule)}
+tbody tr:nth-child(even){background:var(--panel)}
+img{max-width:100%;height:auto}
+blockquote{margin:1.6em 0;padding:.15em 0 .15em 1.2em;border-left:3px solid var(--accent);color:var(--muted);font-style:italic}
+hr{border:none;border-top:1px solid var(--rule);margin:2.5em 0}
+.mermaid{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:1em;text-align:center;margin:1.6em 0}
+.mermaid svg{max-width:100%;height:auto}
+@media print{.mermaid{break-inside:avoid}.mermaid svg{max-height:170mm}}
+.mermaid-error{border:1px solid #c33;color:#c33;padding:.5em;border-radius:4px;white-space:pre-wrap}
+.vega-chart{background:transparent;text-align:center;margin:1.6em 0}
+.vega-chart svg{max-width:100%;height:auto}
+.vega-error{border:1px solid #c33;color:#c33;padding:.5em;border-radius:4px;white-space:pre-wrap}
+.vega-controls{display:flex;gap:.4rem;justify-content:flex-end;align-items:center;margin:.2rem 0 .3rem}
+.vega-controls button{font:inherit;font-size:.78rem;padding:.3rem .65rem;border:1px solid var(--rule);background:var(--panel);color:var(--ink);border-radius:6px;cursor:pointer}
+.vega-controls button:hover{background:var(--accent-soft)}
+.vega-controls button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.vega-chart:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+#theme-toggle{position:fixed;top:14px;right:14px;z-index:2147483000;appearance:none;border:1px solid var(--rule);background:var(--panel);color:var(--muted);font:500 11px/1 ui-sans-serif,system-ui,sans-serif;padding:7px 11px;border-radius:999px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+#theme-toggle:hover{color:var(--ink);border-color:var(--accent)}
+#theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body.fb-presenting #theme-toggle{display:none}
+#tool-credit{margin:3.5em 0 0;font:500 10px/1.4 ui-sans-serif,system-ui,sans-serif;letter-spacing:.04em;color:var(--muted);opacity:.6;text-align:right}
+#tool-credit a{color:inherit;border-bottom:1px solid transparent}
+#tool-credit a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+body.fb-presenting #tool-credit{display:none}
+@media print{#theme-toggle{display:none}#tool-credit{display:none}}
+@media print{.vega-controls{display:none}}
+@media print{.vega-chart{break-inside:avoid}}
+@page{margin:16mm}
+@media print{html{background:#fff}body{max-width:none;padding:0;background:#fff;color:#000;font-size:11pt}a{color:inherit;border:0}pre{background:#f5f5f5;color:#111;border:1px solid #ddd}h1,h2,h3,h4{break-after:avoid}table,pre,blockquote,figure{break-inside:avoid}}
+.figure{max-width:100%;height:auto;display:block;margin:1.5em auto}
+/* Triangle Agency — red display type, warm paper, agency furniture */
+
+:root{
+  --ta-red:#e1251b;
+  --ta-red-deep:#a8140d;
+  --ta-navy:#1b2a6b;
+  --ta-blue:#2b4ea2;
+  --ta-gold:#f2b705;
+  --ta-paper:#fdfcf7;
+  --ta-panel:#ffffff;
+  --ta-ink:#141414;
+  --ta-muted:#5c5a54;
+  --ta-rule:#d9d3c4;
+  --ta-rule-soft:#ece7da;
+
+  --paper:var(--ta-paper);
+  --panel:var(--ta-panel);
+  --ink:var(--ta-ink);
+  --muted:var(--ta-muted);
+  --rule:var(--ta-rule);
+  --accent:var(--ta-red);
+  --accent-soft:rgba(225,37,27,.09);
+  --amber:var(--ta-gold);
+  --code:#1b1b1b;
+  --code-ink:#f4f1e8;
+  --code-bg:#f1ece0;
+  --link:var(--ta-red);
+  --bg:var(--paper);
+  --fg:var(--ink);
+  --border:var(--rule);
+}
+
+:root[data-theme="dark"]{
+  --ta-paper:#14161a;
+  --ta-panel:#1c1f25;
+  --ta-ink:#f3f0e7;
+  --ta-muted:#a9a69d;
+  --ta-rule:#33373f;
+  --ta-rule-soft:#262a31;
+  --ta-red:#ff4b3e;
+  --ta-red-deep:#ff7a70;
+  --paper:var(--ta-paper);
+  --panel:var(--ta-panel);
+  --ink:var(--ta-ink);
+  --muted:var(--ta-muted);
+  --rule:var(--ta-rule);
+  --accent:var(--ta-red);
+  --accent-soft:rgba(255,75,62,.14);
+  --code:#0d0f13;
+  --code-ink:#f3f0e7;
+  --code-bg:#262a31;
+  --link:var(--ta-red);
+}
+
+/* The base stylesheet darkens on OS preference; this theme is print-first, so
+   light is the default and dark only applies when explicitly toggled. */
+:root:not([data-theme="dark"]){
+  color-scheme:light;
+  --paper:var(--ta-paper);
+  --panel:var(--ta-panel);
+  --ink:var(--ta-ink);
+  --muted:var(--ta-muted);
+  --rule:var(--ta-rule);
+  --accent:var(--ta-red);
+  --accent-soft:rgba(225,37,27,.09);
+  --amber:var(--ta-gold);
+  --code:#1b1b1b;
+  --code-ink:#f4f1e8;
+  --code-bg:#f1ece0;
+  --link:var(--ta-red);
+  --bg:var(--paper);
+  --fg:var(--ink);
+  --border:var(--rule);
+}
+
+/* ---------- page ---------- */
+
+html{background:var(--paper)}
+body{
+  font-family:"Segoe UI","Inter",-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+  font-size:1.0625rem;
+  line-height:1.62;
+  max-width:52em;
+  padding:3.2em 3em 5em 4.2em;
+  color:var(--ink);
+  background:var(--paper);
+  position:relative;
+}
+body::before{
+  content:"";
+  position:absolute;
+  top:2.2em;bottom:2.2em;left:1.9em;
+  width:3px;
+  background:var(--ta-red);
+  border-radius:2px;
+}
+@media (max-width:640px){
+  body{padding:2.4em 1.2em 3em 2.4em}
+  body::before{left:1.1em;top:1.6em;bottom:1.6em}
+}
+
+::selection{background:rgba(225,37,27,.18)}
+
+/* ---------- type ---------- */
+
+h1,h2,h3,h4,h5{
+  font-family:"Century Gothic","Futura","Avenir Next","Trebuchet MS",sans-serif;
+  font-weight:700;
+  letter-spacing:-.015em;
+  line-height:1.08;
+  color:var(--ta-red);
+  margin:1.9em 0 .5em;
+}
+h1{
+  font-size:2.6rem;
+  letter-spacing:-.03em;
+  margin-top:0;
+  text-transform:none;
+}
+h1::after{
+  content:"";
+  display:block;
+  width:2.6em;
+  height:5px;
+  margin-top:.42em;
+  background:var(--ta-red);
+  border-radius:1px;
+}
+h2{font-size:1.72rem;margin-top:2.1em}
+h3{font-size:1.2rem;color:var(--ink);letter-spacing:-.01em}
+h4{
+  font-size:.78rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ta-muted);
+  font-weight:700;
+  margin:1.9em 0 .4em;
+}
+h5{font-size:.95rem;color:var(--ta-ink)}
+
+p{margin:0 0 1.02em;max-width:70ch}
+p,li{color:var(--ink)}
+strong{font-weight:700}
+em{font-style:italic}
+small{color:var(--muted);font-size:.86em}
+
+a{
+  color:var(--ta-red);
+  text-decoration:none;
+  border-bottom:1px solid rgba(225,37,27,.35);
+}
+a:hover{border-bottom-color:var(--ta-red)}
+
+ul,ol{padding-left:1.3em}
+li{margin:.3em 0}
+li::marker{color:var(--ta-red);font-weight:700}
+
+/* ---------- callouts ---------- */
+
+blockquote{
+  margin:1.8em 0;
+  padding:1.15em 1.35em;
+  border:2px solid var(--ta-red);
+  border-radius:12px;
+  background:var(--panel);
+  color:var(--ink);
+  font-style:normal;
+  font-size:.97em;
+  box-shadow:0 1px 0 rgba(20,20,20,.04);
+}
+blockquote > :first-child{margin-top:0}
+blockquote > :last-child{margin-bottom:0}
+blockquote strong:first-child{
+  display:block;
+  font-family:"Century Gothic","Futura","Trebuchet MS",sans-serif;
+  font-size:1.02rem;
+  color:var(--ta-red);
+  margin-bottom:.35em;
+}
+
+/* ---------- tables ---------- */
+
+table{
+  border-collapse:collapse;
+  width:100%;
+  margin:1.7em 0;
+  font-size:.94em;
+  border:1px solid var(--ta-rule);
+  border-radius:10px;
+  overflow:hidden;
+}
+th,td{
+  border-bottom:1px solid var(--ta-rule-soft);
+  padding:.62em .8em;
+  text-align:left;
+  vertical-align:top;
+}
+th{
+  font-family:"Century Gothic","Futura","Trebuchet MS",sans-serif;
+  font-size:.72em;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ta-red);
+  font-weight:700;
+  background:rgba(225,37,27,.06);
+  border-bottom:2px solid var(--ta-red);
+}
+tbody tr:nth-child(even){background:rgba(20,20,20,.025)}
+tbody tr:last-child td{border-bottom:0}
+
+/* ---------- code ---------- */
+
+code,pre{font-family:"Cascadia Mono","SF Mono",Consolas,monospace}
+code{
+  font-size:.88em;
+  background:transparent;
+  color:var(--ink);
+  padding:0 .1em;
+  border:0;
+  border-bottom:1px dotted var(--ta-red);
+  border-radius:0;
+}
+pre{
+  background:var(--code);
+  color:var(--code-ink);
+  padding:1.05em 1.2em;
+  border-radius:10px;
+  border-left:3px solid var(--ta-red);
+  overflow-x:auto;
+  line-height:1.55;
+}
+pre code{background:none;border:0;padding:0;color:inherit;font-size:1em}
+
+/* ---------- rules & marks ---------- */
+
+hr{
+  border:0;
+  height:1.6em;
+  margin:2.6em 0;
+  position:relative;
+  background:none;
+}
+hr::after{
+  content:"▲";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  color:var(--ta-red);
+  font-size:.8em;
+  background:var(--paper);
+  padding:0 .7em;
+}
+hr::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:50%;
+  border-top:1px solid var(--ta-rule);
+}
+
+/* ---------- deck ---------- */
+
+body:has(div.slide){
+  max-width:64em;
+  padding:2.4em 2em 4em 3.4em;
+}
+body:has(div.slide)::before{display:none}
+
+div.slide{
+  counter-increment:slide;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  aspect-ratio:16/9;
+  max-height:78vh;
+  margin:1.6em auto;
+  padding:2.6em 3em;
+  background:var(--panel);
+  border:1px solid var(--ta-rule);
+  border-radius:6px;
+  box-shadow:0 1px 2px rgba(20,20,20,.05),0 12px 32px -18px rgba(20,20,20,.35);
+  overflow:hidden;
+}
+body{counter-reset:slide}
+
+div.slide::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;bottom:0;
+  width:6px;
+  background:var(--ta-red);
+}
+div.slide::after{
+  content:counter(slide,decimal-leading-zero);
+  position:absolute;
+  right:1.4em;bottom:.9em;
+  font-family:"Cascadia Mono",Consolas,monospace;
+  font-size:.72rem;
+  letter-spacing:.12em;
+  color:var(--ta-muted);
+}
+div.slide > section{width:100%}
+div.slide h2{
+  font-size:2.15rem;
+  margin:0 0 .55em;
+  letter-spacing:-.025em;
+}
+div.slide h2::after{
+  content:"";
+  display:block;
+  width:1.9em;
+  height:4px;
+  margin-top:.35em;
+  background:var(--ta-red);
+}
+div.slide p,
+div.slide li{font-size:1.06rem;max-width:56ch}
+div.slide ul,
+div.slide ol{padding-left:1.15em}
+div.slide li{margin:.4em 0}
+div.slide table{font-size:.82em;margin:.6em 0}
+div.slide blockquote{
+  margin:.8em 0;
+  padding:.8em 1em;
+  font-size:.92em;
+}
+div.slide h3{font-size:1.05rem;margin:.9em 0 .3em}
+
+/* title slide */
+div.slide.title{
+  background:var(--ta-red);
+  border-color:var(--ta-red);
+  color:#fff;
+  justify-content:center;
+}
+div.slide.title::before{background:rgba(0,0,0,.18)}
+div.slide.title::after{color:rgba(255,255,255,.7)}
+div.slide.title h1,
+div.slide.title h2,
+div.slide.title p,
+div.slide.title li,
+div.slide.title strong{color:#fff}
+div.slide.title h1{
+  font-size:3.4rem;
+  line-height:1;
+  margin:0 0 .3em;
+}
+div.slide.title h1::after{background:#fff;width:3.2em}
+div.slide.title p{font-size:1.1rem;opacity:.92}
+div.slide.title .mark{
+  position:absolute;
+  top:2.2em;left:2.6em;
+  font-size:2.2rem;
+  line-height:1;
+  color:#fff;
+}
+
+/* ---------- print ---------- */
+
+@page{margin:18mm 16mm}
+@media print{
+  html,body{background:#fff;color:#000}
+  body{max-width:none;padding:0 0 0 10mm;font-size:10.5pt}
+  body::before{display:none}
+  h1,h2,h3{color:#c81f16}
+  a{color:inherit;border:0}
+  blockquote{border-color:#c81f16;box-shadow:none;break-inside:avoid}
+  table,pre{break-inside:avoid}
+  hr{break-after:page;height:0;margin:0;border:0}
+  hr::before,hr::after{display:none}
+}
+
+@page deck{size:297mm 167mm;margin:0}
+@media print{
+  body:has(div.slide){padding:0;max-width:none}
+  div.slide{
+    page:deck;
+    aspect-ratio:auto;
+    max-height:none;
+    height:100vh;
+    margin:0;
+    padding:18mm 22mm;
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+    break-after:page;
+  }
+  div.slide:last-child{break-after:auto}
+  div.slide.title{background:#c81f16 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+</style>
+<style>
+@page{size:297mm 167mm;margin:0}
+@media print{
+  body{padding:0;max-width:none}
+  div.slide{height:100vh;margin:0;padding:18mm 22mm;border:0;border-radius:0;box-shadow:none;break-after:page}
+  div.slide:last-child{break-after:auto}
+}
+</style>
+<div id="slide-title" class="slide title">
+<p><span class="mark">▲</span></p>
+<section id="Anomaly-Briefing" class="level1">
+<h1>Anomaly Briefing</h1>
+<p>Case <code>[00-000]</code> · <code>[LOCATION]</code> · <code>[DATE]</code></p>
+<p>Prepared for <code>[AUDIENCE]</code> by <code>[AUTHOR]</code></p>
+</section>
+</div>
+<div id="slide-agenda" class="slide">
+<section id="Agenda" class="level2">
+<h2>Agenda</h2>
+<ul>
+<li>Situation in brief</li>
+<li>Anomaly profile</li>
+<li>Timeline of events</li>
+<li>Risk and exposure</li>
+<li>Recommendation</li>
+<li>Next steps</li>
+</ul>
+</section>
+</div>
+<div id="slide-situation" class="slide">
+<section id="Situation" class="level2">
+<h2>Situation</h2>
+<p><code>[One sentence that states the problem without hedging.]</code></p>
+<ul>
+<li>Detected <code>[DATE]</code> at <code>[LOCATION]</code> by <code>[SOURCE]</code>.</li>
+<li>Containment attempt by <code>[UNIT]</code> — <code>[OUTCOME]</code>.</li>
+<li>Civilian exposure: <code>[NONE / LIMITED / UNCONTROLLED]</code>.</li>
+<li>Current status: <code>[CONTAINED / ACTIVE / UNSTABLE]</code>.</li>
+</ul>
+<blockquote>
+<p><strong><strong>Bottom line:</strong></strong> <code>[What the audience must decide today.]</code></p>
+</blockquote>
+</section>
+</div>
+<div id="slide-profile" class="slide">
+<section id="Anomaly-Profile" class="level2">
+<h2>Anomaly Profile</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Entry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Designation</td>
+<td><code>[ANOMALY NAME]</code></td>
+</tr>
+<tr>
+<td>Class</td>
+<td><code>[CLASS]</code></td>
+</tr>
+<tr>
+<td>Manifestation</td>
+<td><code>[VISUAL / AUDITORY / BEHAVIORAL]</code></td>
+</tr>
+<tr>
+<td>Weakness</td>
+<td><code>[KNOWN WEAKNESS]</code></td>
+</tr>
+<tr>
+<td>Resistance</td>
+<td><code>[KNOWN RESISTANCE]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Do not engage <code>[TRIGGER CONDITION]</code> without <code>[AUTHORIZATION]</code>.</p>
+</section>
+</div>
+<div id="slide-timeline" class="slide">
+<section id="Timeline" class="level2">
+<h2>Timeline</h2>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Event</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[HH:MM]</code></td>
+<td><code>[EVENT]</code></td>
+<td><code>[SOURCE]</code></td>
+</tr>
+<tr>
+<td><code>[HH:MM]</code></td>
+<td><code>[EVENT]</code></td>
+<td><code>[SOURCE]</code></td>
+</tr>
+<tr>
+<td><code>[HH:MM]</code></td>
+<td><code>[EVENT]</code></td>
+<td><code>[SOURCE]</code></td>
+</tr>
+<tr>
+<td><code>[HH:MM]</code></td>
+<td><code>[EVENT]</code></td>
+<td><code>[SOURCE]</code></td>
+</tr>
+</tbody>
+</table>
+<p>All times local. Unverified entries are marked <code>[?]</code>.</p>
+</section>
+</div>
+<div id="slide-risk" class="slide">
+<section id="Risk-Exposure" class="level2">
+<h2>Risk &amp; Exposure</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[RISK]</code></td>
+<td><code>[LOW / MED / HIGH]</code></td>
+<td><code>[LOW / MED / HIGH]</code></td>
+</tr>
+<tr>
+<td><code>[RISK]</code></td>
+<td><code>[LOW / MED / HIGH]</code></td>
+<td><code>[LOW / MED / HIGH]</code></td>
+</tr>
+<tr>
+<td><code>[RISK]</code></td>
+<td><code>[LOW / MED / HIGH]</code></td>
+<td><code>[LOW / MED / HIGH]</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong><strong>Escalation:</strong></strong> if <code>[TRIGGER]</code>, withdraw to <code>[RALLY POINT]</code> and contact <code>[CONTACT]</code>.</p>
+</blockquote>
+</section>
+</div>
+<div id="slide-recommendation" class="slide">
+<section id="Recommendation" class="level2">
+<h2>Recommendation</h2>
+<p><strong>Option A — <code>[NAME]</code></strong></p>
+<ul>
+<li>Cost: <code>[COST]</code></li>
+<li>Risk: <code>[RISK]</code></li>
+<li>Time to effect: <code>[DURATION]</code></li>
+</ul>
+<p><strong>Option B — <code>[NAME]</code></strong></p>
+<ul>
+<li>Cost: <code>[COST]</code></li>
+<li>Risk: <code>[RISK]</code></li>
+<li>Time to effect: <code>[DURATION]</code></li>
+</ul>
+<p><strong><strong>Recommended:</strong></strong> <code>[OPTION]</code>, because <code>[REASON]</code>.</p>
+</section>
+</div>
+<div id="slide-next" class="slide">
+<section id="Next-Steps" class="level2">
+<h2>Next Steps</h2>
+<ol type="1">
+<li><code>[ACTION]</code> — owner <code>[NAME]</code>, due <code>[DATE]</code>.</li>
+<li><code>[ACTION]</code> — owner <code>[NAME]</code>, due <code>[DATE]</code>.</li>
+<li><code>[ACTION]</code> — owner <code>[NAME]</code>, due <code>[DATE]</code>.</li>
+</ol>
+<p>Questions to <code>[CONTACT]</code> · <code>[CHANNEL]</code></p>
+<p><strong>Clock in. Save the world.</strong></p>
+</section>
+</div>
+
+</body>
+</html>
