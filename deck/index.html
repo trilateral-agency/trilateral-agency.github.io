@@ -407,6 +407,49 @@ div.slide blockquote{
 }
 div.slide h3{font-size:1.05rem;margin:.9em 0 .3em}
 
+/* slide navigation */
+div.slide .nav{
+  position:absolute;
+  left:3em;right:3em;bottom:1.1em;
+  display:flex;
+  gap:.5em;
+  font-family:"Cascadia Mono","SF Mono",Consolas,monospace;
+  font-size:.74rem;
+  letter-spacing:.08em;
+}
+div.slide .nav p{margin:0;display:flex;gap:.5em;max-width:none}
+div.slide .nav a{
+  display:inline-block;
+  padding:.32em .7em;
+  border:1px solid var(--ta-rule);
+  border-radius:999px;
+  color:var(--ta-muted);
+  background:var(--panel);
+  text-decoration:none;
+  line-height:1;
+  transition:color .12s,border-color .12s,background .12s;
+}
+div.slide .nav a:hover,
+div.slide .nav a:focus-visible{
+  color:var(--ta-red);
+  border-color:var(--ta-red);
+  background:rgba(225,37,27,.06);
+}
+div.slide.title .nav a{
+  color:rgba(255,255,255,.85);
+  border-color:rgba(255,255,255,.45);
+  background:transparent;
+}
+div.slide.title .nav a:hover,
+div.slide.title .nav a:focus-visible{
+  color:#fff;
+  border-color:#fff;
+  background:rgba(255,255,255,.12);
+}
+
+html:has(div.slide){scroll-behavior:smooth;scroll-snap-type:y proximity}
+div.slide{scroll-snap-align:center;scroll-margin-top:1.5em}
+
 /* title slide */
 div.slide.title{
   background:var(--ta-red);
@@ -477,6 +520,7 @@ div.slide.title .mark{
   body{padding:0;max-width:none}
   div.slide{height:100vh;margin:0;padding:18mm 22mm;border:0;border-radius:0;box-shadow:none;break-after:page}
   div.slide:last-child{break-after:auto}
+  div.slide .nav{display:none}
 }
 </style>
 <div id="slide-title" class="slide title">
@@ -485,6 +529,9 @@ div.slide.title .mark{
 <h1>Anomaly Briefing</h1>
 <p>Case <code>[00-000]</code> · <code>[LOCATION]</code> · <code>[DATE]</code></p>
 <p>Prepared for <code>[AUDIENCE]</code> by <code>[AUTHOR]</code></p>
+<div id="nav-1" class="nav">
+<p><a href="#slide-agenda">02 →</a></p>
+</div>
 </section>
 </div>
 <div id="slide-agenda" class="slide">
@@ -498,6 +545,9 @@ div.slide.title .mark{
 <li>Recommendation</li>
 <li>Next steps</li>
 </ul>
+<div id="nav-2" class="nav">
+<p><a href="#slide-title">← 01</a> · <a href="#slide-situation">03 →</a></p>
+</div>
 </section>
 </div>
 <div id="slide-situation" class="slide">
@@ -513,6 +563,9 @@ div.slide.title .mark{
 <blockquote>
 <p><strong><strong>Bottom line:</strong></strong> <code>[What the audience must decide today.]</code></p>
 </blockquote>
+<div id="nav-3" class="nav">
+<p><a href="#slide-agenda">← 02</a> · <a href="#slide-profile">04 →</a></p>
+</div>
 </section>
 </div>
 <div id="slide-profile" class="slide">
@@ -549,6 +602,9 @@ div.slide.title .mark{
 </tbody>
 </table>
 <p>Do not engage <code>[TRIGGER CONDITION]</code> without <code>[AUTHORIZATION]</code>.</p>
+<div id="nav-4" class="nav">
+<p><a href="#slide-situation">← 03</a> · <a href="#slide-timeline">05 →</a></p>
+</div>
 </section>
 </div>
 <div id="slide-timeline" class="slide">
@@ -586,6 +642,9 @@ div.slide.title .mark{
 </tbody>
 </table>
 <p>All times local. Unverified entries are marked <code>[?]</code>.</p>
+<div id="nav-5" class="nav">
+<p><a href="#slide-profile">← 04</a> · <a href="#slide-risk">06 →</a></p>
+</div>
 </section>
 </div>
 <div id="slide-risk" class="slide">
@@ -620,6 +679,9 @@ div.slide.title .mark{
 <blockquote>
 <p><strong><strong>Escalation:</strong></strong> if <code>[TRIGGER]</code>, withdraw to <code>[RALLY POINT]</code> and contact <code>[CONTACT]</code>.</p>
 </blockquote>
+<div id="nav-6" class="nav">
+<p><a href="#slide-timeline">← 05</a> · <a href="#slide-recommendation">07 →</a></p>
+</div>
 </section>
 </div>
 <div id="slide-recommendation" class="slide">
@@ -638,6 +700,9 @@ div.slide.title .mark{
 <li>Time to effect: <code>[DURATION]</code></li>
 </ul>
 <p><strong><strong>Recommended:</strong></strong> <code>[OPTION]</code>, because <code>[REASON]</code>.</p>
+<div id="nav-7" class="nav">
+<p><a href="#slide-risk">← 06</a> · <a href="#slide-next">08 →</a></p>
+</div>
 </section>
 </div>
 <div id="slide-next" class="slide">
@@ -650,8 +715,39 @@ div.slide.title .mark{
 </ol>
 <p>Questions to <code>[CONTACT]</code> · <code>[CHANNEL]</code></p>
 <p><strong>Clock in. Save the world.</strong></p>
+<div id="nav-8" class="nav">
+<p><a href="#slide-recommendation">← 07</a></p>
+</div>
 </section>
 </div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll("div.slide"));
+  if(!slides.length)return;
+  function go(i){
+    i=Math.max(0,Math.min(slides.length-1,i));
+    slides[i].scrollIntoView({behavior:"instant",block:"center"});
+  }
+  function current(){
+    var best=0,dist=Infinity;
+    slides.forEach(function(s,i){
+      var r=s.getBoundingClientRect();
+      var d=Math.abs(r.top+r.height/2-innerHeight/2);
+      if(d<dist){dist=d;best=i}
+    });
+    return best;
+  }
+  addEventListener("keydown",function(e){
+    if(e.target.closest("input,textarea,select"))return;
+    var k=e.key;
+    if(k==="ArrowRight"||k==="ArrowDown"||k==="PageDown"||k===" "){e.preventDefault();go(current()+1)}
+    else if(k==="ArrowLeft"||k==="ArrowUp"||k==="PageUp"){e.preventDefault();go(current()-1)}
+    else if(k==="Home"){e.preventDefault();go(0)}
+    else if(k==="End"){e.preventDefault();go(slides.length-1)}
+  });
+})();
+</script>
 
 </body>
 </html>
