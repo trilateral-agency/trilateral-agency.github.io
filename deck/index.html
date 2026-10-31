@@ -864,7 +864,19 @@ codes.forEach(function(c){
 });
 if(!specs.length)return;
 var start=function(){
-  var dark=document.documentElement.dataset.theme==="dark"||(!document.documentElement.dataset.theme&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+  var dark=function(){
+    var t=document.documentElement.dataset.theme;
+    if(t==="dark")return true;
+    if(t==="light")return false;
+    var bg=getComputedStyle(document.body).backgroundColor;
+    var m=bg.match(/[\d.]+/g);
+    if(!m||(m.length>3&&parseFloat(m[3])===0)){
+      bg=getComputedStyle(document.documentElement).backgroundColor;
+      m=bg.match(/[\d.]+/g);
+    }
+    if(!m||(m.length>3&&parseFloat(m[3])===0))return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return (0.2126*m[0]+0.7152*m[1]+0.0722*m[2])<128;
+  }();
   specs.forEach(function(pair){
     var opts={actions:false,renderer:"svg",theme:dark?"dark":"light"};
     if(window.vega&&window.vega.expressionInterpreter){opts.ast=true;opts.expr=window.vega.expressionInterpreter;}
@@ -907,5 +919,6 @@ window.addEventListener("load",start);
   });
 })();
 </script>
+
 </body>
 </html>
